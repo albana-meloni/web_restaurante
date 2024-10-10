@@ -1,1 +1,1 @@
-sessionStorage.setItem("Numero de Pedidos", "000");
+localStorage.setItem("Numero de Pedidos", "000");

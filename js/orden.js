@@ -70,7 +70,7 @@ const guardarPedido = document.getElementById("guardarPedido");
 const actualizarPedido = document.getElementById("actualizarPedido");
 
 guardarPedido.addEventListener("click", () => {
-  const storedData = sessionStorage.getItem("Mesa" + numMesa);
+  const storedData = localStorage.getItem("Mesa" + numMesa);
   const parsedData = JSON.parse(storedData);
 
   if (parsedData == null) {
@@ -78,19 +78,19 @@ guardarPedido.addEventListener("click", () => {
       mesa: numMesa,
       personas: cantPersonas.value,
       bebidas: textareaBebidas.value.trim().split("\n"),
-      Comidas: textareaComidas.value.trim().split("\n"),
+      comidas: textareaComidas.value.trim().split("\n"),
       propina: null,
       estado: "pedido",
     };
 
     const jsonData = JSON.stringify(data);
 
-    sessionStorage.setItem("Mesa" + numMesa, jsonData);
+    localStorage.setItem("Mesa" + numMesa, jsonData);
   }
 });
 
 actualizarPedido.addEventListener("click", () => {
-  const storedData = sessionStorage.getItem("Mesa" + numMesa);
+  const storedData = localStorage.getItem("Mesa" + numMesa);
   const parsedData = JSON.parse(storedData);
 
   parsedData.mesa = numMesa;
@@ -107,11 +107,11 @@ actualizarPedido.addEventListener("click", () => {
   parsedData.estado = "pedido";
 
   const jsonData = JSON.stringify(parsedData);
-  sessionStorage.setItem("Mesa" + numMesa, jsonData);
+  localStorage.setItem("Mesa" + numMesa, jsonData);
 });
 
 for (let index = 1; index <= 8; index++) {
-  const storedData = sessionStorage.getItem("Mesa" + index);
+  const storedData = localStorage.getItem("Mesa" + index);
   const parsedData = JSON.parse(storedData);
 
   if (parsedData != null) {
@@ -129,19 +129,19 @@ const propina = document.getElementById("propina");
 
 cerrarPedido.addEventListener("click", () => {
   if (propina.value != "") {
-    const numPedidoStorage = sessionStorage.getItem("Numero de Pedidos");
+    const numPedidoStorage = localStorage.getItem("Numero de Pedidos");
     let intPedido = parseInt(numPedidoStorage, 10);
     intPedido++;
     let pedidoActual = intPedido.toString().padStart(3, "0");
-    sessionStorage.setItem("Numero de Pedidos", pedidoActual);
+    localStorage.setItem("Numero de Pedidos", pedidoActual);
 
-    const storedData = sessionStorage.getItem("Mesa" + numMesa);
+    const storedData = localStorage.getItem("Mesa" + numMesa);
     const parsedData = JSON.parse(storedData);
     parsedData.estado = "cerrado";
     parsedData.propina = propina.value;
 
     const jsonData = JSON.stringify(parsedData, null, 2);
-    sessionStorage.setItem("Mesa" + numMesa, jsonData);
+    localStorage.setItem("Mesa" + numMesa, jsonData);
 
     const blob = new Blob([jsonData], { type: "application/json" });
 
@@ -154,6 +154,6 @@ cerrarPedido.addEventListener("click", () => {
 
     document.body.removeChild(link);
 
-    sessionStorage.removeItem("Mesa" + numMesa);
+    localStorage.removeItem("Mesa" + numMesa);
   }
 });
