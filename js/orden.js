@@ -101,7 +101,7 @@ actualizarPedido.addEventListener("click", () => {
   }
 
   if (textareaComidas.value.trim() != "") {
-    parsedData.Comidas = textareaComidas.value.trim().split("\n");
+    parsedData.comidas = textareaComidas.value.trim().split("\n");
   }
 
   parsedData.estado = "pedido";
@@ -117,7 +117,7 @@ for (let index = 1; index <= 8; index++) {
   if (parsedData != null) {
     if (parsedData.estado == "pedido" && parsedData.mesa == numMesa) {
       cargarPedido(parsedData.personas, parsedData.bebidas, divBebidas);
-      cargarPedido(parsedData.personas, parsedData.Comidas, divComidas);
+      cargarPedido(parsedData.personas, parsedData.comidas, divComidas);
     }
   }
 }
@@ -143,16 +143,10 @@ cerrarPedido.addEventListener("click", () => {
     const jsonData = JSON.stringify(parsedData, null, 2);
     localStorage.setItem("Mesa" + numMesa, jsonData);
 
-    const blob = new Blob([jsonData], { type: "application/json" });
-
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "pedido_" + pedidoActual + ".json";
-
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
+    let jsonPedidos = JSON.parse(localStorage.getItem("JSON Pedidos"));
+    jsonPedidos.cantidad_pedidos = intPedido;
+    jsonPedidos.pedidos.push(parsedData);
+    localStorage.setItem("JSON Pedidos", JSON.stringify(jsonPedidos));
 
     localStorage.removeItem("Mesa" + numMesa);
   }

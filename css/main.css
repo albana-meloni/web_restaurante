@@ -47,7 +47,6 @@ p {
 }
 .table.unavailable {
   background-color: brown;
-  cursor: not-allowed;
 }
 
 /*# sourceMappingURL=main.css.map */

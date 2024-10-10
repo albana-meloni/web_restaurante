@@ -24,5 +24,16 @@ numPedido.innerText = numPedidoStorage;
 /* ----------------------------------------------------------------- */
 const cerrarSesion = document.getElementById("cerrarSesion");
 cerrarSesion.addEventListener("click", () => {
+  let jsonPedidos = JSON.parse(localStorage.getItem("JSON Pedidos"));
+  
+  const blob = new Blob([JSON.stringify(jsonPedidos)], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  let fecha = new Date(Date.now());
+  link.download = "pedidos-" + fecha.toLocaleDateString() + ".json";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
   localStorage.clear();
 });
