@@ -37,8 +37,10 @@ function crearPedido(textarea, div) {
     let listaPedido = textarea.value.split("\n");
 
     listaPedido.forEach((line) => {
-      const item = new CardItem(line);
-      div.appendChild(item);
+      if (line != "") {
+        const item = new CardItem(line);
+        div.appendChild(item);
+      }
     });
   } else {
     if (div != null) {
@@ -47,12 +49,13 @@ function crearPedido(textarea, div) {
   }
 }
 
-function cargarPedido(cant, listText, div) {
+function cargarPedido(cant, listText, div, textarea) {
   cantPersonas.value = cant;
 
   listText.forEach((text) => {
     const item = new CardItem(text);
     div.appendChild(item);
+    textarea.value += text + "\n";
   });
 }
 
@@ -110,15 +113,14 @@ actualizarPedido.addEventListener("click", () => {
   localStorage.setItem("Mesa" + numMesa, jsonData);
 });
 
+
 for (let index = 1; index <= 8; index++) {
   const storedData = localStorage.getItem("Mesa" + index);
   const parsedData = JSON.parse(storedData);
 
-  if (parsedData != null) {
-    if (parsedData.estado == "pedido" && parsedData.mesa == numMesa) {
-      cargarPedido(parsedData.personas, parsedData.bebidas, divBebidas);
-      cargarPedido(parsedData.personas, parsedData.comidas, divComidas);
-    }
+  if (parsedData != null && parsedData.mesa == numMesa) {
+    cargarPedido(parsedData.personas, parsedData.bebidas, divBebidas, textareaBebidas);
+    cargarPedido(parsedData.personas, parsedData.comidas, divComidas, textareaComidas);
   }
 }
 
